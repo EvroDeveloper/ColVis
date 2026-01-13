@@ -38,7 +38,7 @@ namespace ColVis
             page.CreateBool("Show Pelvis", Color.white, pelvisEntry.Value, (b) => { pelvisEntry.Value = b; PhysVis.PelvisSetActive(b); MelonPreferences.Save(); });
             page.CreateBool("Show Torso", Color.white, torsoEntry.Value, (b) => { torsoEntry.Value = b; PhysVis.TorsoSetActive(b); MelonPreferences.Save(); });
             page.CreateBool("Show Arms", Color.white, armsEntry.Value, (b) => { armsEntry.Value = b; PhysVis.ArmsSetActive(b); MelonPreferences.Save(); });
-            page.CreateBool("Show Arms", Color.white, handsEntry.Value, (b) => { handsEntry.Value = b; PhysVis.HandsSetActive(b); MelonPreferences.Save(); });
+            page.CreateBool("Show Hands", Color.white, handsEntry.Value, (b) => { handsEntry.Value = b; PhysVis.HandsSetActive(b); MelonPreferences.Save(); });
 
             page.CreateEnum("Rig Visualization", Color.white, rigVisType, (e) => SetRigVis((RigVisType)e));
 
@@ -93,7 +93,5 @@ namespace ColVis
             if (Player.RigManager.interpRig.TryGetComponent(out RigVis control3)) control3.enabled = false;
             if (Player.RigManager.virtualHeptaRig.TryGetComponent(out RigVis control4)) control4.enabled = false;
         }
-
-        
     }
 }
