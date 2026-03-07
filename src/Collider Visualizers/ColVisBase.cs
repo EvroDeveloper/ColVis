@@ -77,7 +77,10 @@ namespace ColVis
         {
             Vis.SetActive(active);
             enabled = active;
+            OnSetActive(active);
         }
+
+        public virtual void OnSetActive(bool active) { }
 
         protected override void OnDestroy()
         {

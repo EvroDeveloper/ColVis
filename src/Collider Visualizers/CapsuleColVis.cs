@@ -12,16 +12,12 @@ namespace ColVis
         public CapsuleColVis(CapsuleCollider collider) : base(collider) { }
 
         public override PrimitiveType PrimType => PrimitiveType.Cylinder;
+
         public GameObject sphereTop;
         public GameObject sphereBottom;
 
 
         public override void AfterCreateVis()
-        {
-            CreateSpheres();
-        }
-
-        public void CreateSpheres()
         {
             sphereTop = PrimitiveCreator.CreatePrimitive(PrimitiveType.Sphere);
             sphereTop.transform.parent = Tar.transform;
@@ -36,7 +32,7 @@ namespace ColVis
             sphereBottom.transform.localScale = Vector3.one;
         }
 
-        public void UpdateCapsule()
+        public override void UpdateVis()
         {
             if (Tar.enabled) Vis.SetActive(true);
             else Vis.SetActive(false);
@@ -56,9 +52,10 @@ namespace ColVis
             sphereBottom.transform.rotation = Vis.transform.rotation;
         }
 
-        public override void UpdateVis()
+        public override void OnSetActive(bool active)
         {
-            UpdateCapsule();
+            sphereTop.SetActive(active);
+            sphereBottom.SetActive(active);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace ColVis
     {
         private static MelonPreferences_Category category;
 
-        public static MelonPreferences_Entry<bool> locosphereEntry, fenderEntry, kneeEntry, pelvisEntry, torsoEntry, armsEntry, handsEntry;
+        public static MelonPreferences_Entry<bool> locosphereEntry, fenderEntry, kneeEntry, pelvisEntry, torsoEntry, headEntry, armsEntry, handsEntry;
 
         public static RigVisType rigVisType = RigVisType.None;
 
@@ -36,6 +36,7 @@ namespace ColVis
             kneeEntry = category.CreateEntry<bool>("ShowLegs", true);
             pelvisEntry = category.CreateEntry<bool>("ShowPelvis", false);
             torsoEntry = category.CreateEntry<bool>("ShowTorso", false);
+            headEntry = category.CreateEntry<bool>("ShowHead", false);
             armsEntry = category.CreateEntry<bool>("ShowArms", false);
             handsEntry = category.CreateEntry<bool>("ShowHands", false);
 
@@ -57,6 +58,7 @@ namespace ColVis
             CreateBool("Show Legs", Color.white, kneeEntry.Value, (b) => { kneeEntry.Value = b; PhysVis.LegsSetActive(b); MelonPreferences.Save(); });
             CreateBool("Show Pelvis", Color.white, pelvisEntry.Value, (b) => { pelvisEntry.Value = b; PhysVis.PelvisSetActive(b); MelonPreferences.Save(); });
             CreateBool("Show Torso", Color.white, torsoEntry.Value, (b) => { torsoEntry.Value = b; PhysVis.TorsoSetActive(b); MelonPreferences.Save(); });
+            CreateBool("Show Head", Color.white, headEntry.Value, (b) => { headEntry.Value = b; PhysVis.HeadSetActive(b); MelonPreferences.Save(); });
             CreateBool("Show Arms", Color.white, armsEntry.Value, (b) => { armsEntry.Value = b; PhysVis.ArmsSetActive(b); MelonPreferences.Save(); });
             CreateBool("Show Hands", Color.white, handsEntry.Value, (b) => { handsEntry.Value = b; PhysVis.HandsSetActive(b); MelonPreferences.Save(); });
 
