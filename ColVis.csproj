@@ -34,22 +34,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\net6\0Harmony.dll</HintPath>
+      <HintPath>$(BONELAB_DIR)\MelonLoader\net6\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="BoneLib">
-      <HintPath>/Users/evanbassett/Downloads\BoneLib.dll</HintPath>
+      <HintPath>$(BONELAB_DIR)\Mods\BoneLib.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppInterop.Runtime">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
+      <HintPath>$(BONELAB_DIR)\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Il2Cppmscorlib">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
+      <HintPath>$(BONELAB_DIR)\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppSLZ.Marrow">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\Il2CppAssemblies\Il2CppSLZ.Marrow.dll</HintPath>
+      <HintPath>$(BONELAB_DIR)\MelonLoader\Il2CppAssemblies\Il2CppSLZ.Marrow.dll</HintPath>
     </Reference>
     <Reference Include="MelonLoader">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\net6\MelonLoader.dll</HintPath>
+      <HintPath>$(BONELAB_DIR)\MelonLoader\net6\MelonLoader.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,19 +59,19 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnhollowerBaseLib">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\Managed\UnhollowerBaseLib.dll</HintPath>
+      <HintPath>$(BONELAB_DIR)\MelonLoader\Managed\UnhollowerBaseLib.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\Il2CppAssemblies\UnityEngine.dll</HintPath>
+      <HintPath>$(BONELAB_DIR)\MelonLoader\Il2CppAssemblies\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\Il2CppAssemblies\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(BONELAB_DIR)\MelonLoader\Il2CppAssemblies\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\Il2CppAssemblies\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>$(BONELAB_DIR)\MelonLoader\Il2CppAssemblies\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup>
-    <PostBuildEvent>cp "$(TargetDir)$(AssemblyName).dll" "/Users/evanbassett/Documents/GitHub/CustomCampaignTools/Mod Staging/Mods"</PostBuildEvent>
+    <PostBuildEvent>COPY "$(TargetDir)$(AssemblyName).dll" "$(BONELAB_DIR)/Mods"</PostBuildEvent>
   </PropertyGroup>
 </Project>

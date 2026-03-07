@@ -12,6 +12,21 @@ namespace ColVis
 
         public const float Size = 0.05f;
 
+        private bool _enabled;
+
+        public override bool enabled
+        {
+            get
+            {
+                return _enabled;
+            }
+            set
+            {
+                Vis.SetActive(value);
+                _enabled = value;
+            }
+        }
+
         public override void CreateVis()
         {
             Vis = PrimitiveCreator.CreatePrimitive(PrimitiveType.Cube);

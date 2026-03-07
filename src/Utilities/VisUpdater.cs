@@ -13,10 +13,10 @@ namespace ColVis
     
     public static class VisUpdater
     {
-        private static HashSet<IVisBase> _visBases = new();
-        private static HashSet<IVisBase> _visBaseUpdate = new();
-        private static HashSet<IVisBase> _visBaseFixedUpdate = new();
-        private static HashSet<IVisBase> _visBaseLateUpdate = new();
+        private static HashSet<IVisBase> _visBases = new HashSet<IVisBase>();
+        private static HashSet<IVisBase> _visBaseUpdate = new HashSet<IVisBase>();
+        private static HashSet<IVisBase> _visBaseFixedUpdate = new HashSet<IVisBase>();
+        private static HashSet<IVisBase> _visBaseLateUpdate = new HashSet<IVisBase>();
 
         public static void RegisterVisBase(IVisBase visBase)
         {
@@ -38,7 +38,13 @@ namespace ColVis
         {
             foreach(IVisBase visBase in _visBaseUpdate)
             {
-                visBase.Update();
+                try
+                {
+                    visBase.Update();
+                }
+                catch (Exception)
+                {
+                }
             }
         }
 
@@ -46,7 +52,13 @@ namespace ColVis
         {
             foreach(IVisBase visBase in _visBaseLateUpdate)
             {
-                visBase.Update();
+                try
+                {
+                    visBase.Update();
+                }
+                catch (Exception)
+                {
+                }
             }
         }
 
@@ -54,7 +66,13 @@ namespace ColVis
         {
             foreach(IVisBase visBase in _visBaseFixedUpdate)
             {
-                visBase.Update();
+                try
+                {
+                    visBase.Update();
+                }
+                catch (Exception)
+                {
+                }
             }
         }
     }

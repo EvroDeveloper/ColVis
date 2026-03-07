@@ -1,13 +1,10 @@
 ﻿#if BONELAB
 using Il2CppSLZ.Marrow;
 #elif BONEWORKS
-using StressLevelZero.Rigs;
+using StressLevelZero.Rig;
 #endif
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using MelonLoader;
 
@@ -38,29 +35,36 @@ namespace ColVis
         void Awake()
         {
             _rig = GetComponent<Rig>();
+
             CreateTranVis(_rig.m_pelvis);
+            CreateTranVis(_rig.m_chest);
+
 #if BONELAB
             CreateTranVis(_rig.m_spine);
-#endif
-            CreateTranVis(_rig.m_chest);
-#if BONELAB
             CreateTranVis(_rig.m_clavLf);
             CreateTranVis(_rig.m_clavRt);
             CreateTranVis(_rig.m_shoulderLf);
             CreateTranVis(_rig.m_shoulderRt);
             CreateTranVis(_rig.m_elbowLf);
             CreateTranVis(_rig.m_elbowRt);
-#endif
             CreateTranVis(_rig.m_handLf);
             CreateTranVis(_rig.m_handRt);
+#elif BONEWORKS
+            CreateTranVis(_rig.m_leftHand);
+            CreateTranVis(_rig.m_rightHand);
+#endif
+
 #if BONELAB
             CreateTranVis(_rig.m_hipLf);
             CreateTranVis(_rig.m_hipRt);
             CreateTranVis(_rig.m_kneeLf);
             CreateTranVis(_rig.m_kneeRt);
-#endif
             CreateTranVis(_rig.m_footLf);
             CreateTranVis(_rig.m_footRt);
+#elif BONEWORKS
+            CreateTranVis(_rig.m_leftFoot);
+            CreateTranVis(_rig.m_rightFoot);
+#endif
         }
 
         void OnDisable()

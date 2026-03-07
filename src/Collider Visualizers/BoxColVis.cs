@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace ColVis
 {
-    [RegisterTypeInIl2Cpp]
     public class BoxColVis : ColVisBase<BoxCollider>
     {
         public BoxColVis(BoxCollider ptr) : base(ptr) { }

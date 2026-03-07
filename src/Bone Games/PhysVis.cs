@@ -2,7 +2,7 @@
 #if BONELAB
 using Il2CppSLZ.Marrow;
 #elif BONEWORKS
-using StressLevelZero.Rigs;
+using StressLevelZero.Rig;
 using StressLevelZero.VRMK;
 #endif
 using MelonLoader;
@@ -18,7 +18,7 @@ namespace ColVis
     {
         public PhysVis(IntPtr ptr) : base(ptr) { }
 
-        public static List<PhysVis> activeInstances = new();
+        public static List<PhysVis> activeInstances = new List<PhysVis>();
 
         public SphereColVis locosphere;
         public SphereColVis fender;
@@ -32,7 +32,7 @@ namespace ColVis
         public MeshColVis head;
 #elif BONEWORKS
         public CapsuleColVis pelvis;
-        public BoxColVis chest;
+        public CapsuleColVis chest;
         public CapsuleColVis neck;
         public BoxColVis head;
 #endif
@@ -60,12 +60,21 @@ namespace ColVis
 
             activeInstances.Add(this);
 
+#if BONELAB
             locosphere = new SphereColVis(physicsRig._football);
             locosphere.SetActive(Bone_Menu_Creator.locosphereEntry.Value);
             fender = new SphereColVis(physicsRig._kneeFender);
             fender.SetActive(Bone_Menu_Creator.fenderEntry.Value);
             legs = new CapsuleColVis(physicsRig.kneePelvisCol);
             legs.SetActive(Bone_Menu_Creator.kneeEntry.Value);
+#elif BONEWORKS
+            locosphere = new SphereColVis(physicsRig.physBody._football);
+            locosphere.SetActive(Bone_Menu_Creator.locosphereEntry.Value);
+            fender = new SphereColVis(physicsRig.physBody._kneeFender);
+            fender.SetActive(Bone_Menu_Creator.fenderEntry.Value);
+            legs = new CapsuleColVis(physicsRig.physBody.kneePelvisCol);
+            legs.SetActive(Bone_Menu_Creator.kneeEntry.Value);
+#endif
 
 #if BONELAB
             pelvis = new MeshColVis(physicsRig.torso.cPelvis);
@@ -77,6 +86,10 @@ namespace ColVis
             chest = new MeshColVis(physicsRig.torso.cChest);
             chest.SetActive(Bone_Menu_Creator.torsoEntry.Value);
 #elif BONEWORKS
+            pelvis = new CapsuleColVis(physicsRig.physBody.pelvisCol);
+            pelvis.SetActive(Bone_Menu_Creator.pelvisEntry.Value);
+            chest = new CapsuleColVis(physicsRig.physBody.chestCol);
+            chest.SetActive(Bone_Menu_Creator.torsoEntry.Value);
 #endif
 
 #if BONELAB
@@ -89,12 +102,13 @@ namespace ColVis
             elbowRt = new MeshColVis(physicsRig.rightHand.physHand.cLower);
             elbowRt.SetActive(Bone_Menu_Creator.armsEntry.Value);
 #elif BONEWORKS
-            elbowLf = new MeshColVis(physicsRig.leftHand.physHand.forearmCollider);
+            elbowLf = new CapsuleColVis(physicsRig.physBody.lfForearmCol);
             elbowLf.SetActive(Bone_Menu_Creator.armsEntry.Value);
-            elbowRt = new MeshColVis(physicsRig.rightHand.physHand.forearmCollider);
+            elbowRt = new CapsuleColVis(physicsRig.physBody.rtForearmCol);
             elbowRt.SetActive(Bone_Menu_Creator.armsEntry.Value);
 #endif
 
+#if BONELAB
             handLf = new BoxColVis(physicsRig.leftHand.physHand.handCol);
             handLf.SetActive(Bone_Menu_Creator.handsEntry.Value);
             handRt = new BoxColVis(physicsRig.rightHand.physHand.handCol);
@@ -103,6 +117,16 @@ namespace ColVis
             fingersLf.SetActive(Bone_Menu_Creator.handsEntry.Value);
             fingersRt = new BoxColVis(physicsRig.rightHand.physHand.fingersCol);
             fingersRt.SetActive(Bone_Menu_Creator.handsEntry.Value);
+#elif BONEWORKS
+            handLf = new BoxColVis((BoxCollider)physicsRig.leftHand.GetComponent<BoxCollider>());
+            handLf.SetActive(Bone_Menu_Creator.handsEntry.Value);
+            handRt = new BoxColVis((BoxCollider)physicsRig.rightHand.GetComponent<BoxCollider>());
+            handRt.SetActive(Bone_Menu_Creator.handsEntry.Value);
+            fingersLf = new BoxColVis(physicsRig.physBody.lfFingersCol);
+            fingersLf.SetActive(Bone_Menu_Creator.handsEntry.Value);
+            fingersRt = new BoxColVis(physicsRig.physBody.rtFingersCol);
+            fingersRt.SetActive(Bone_Menu_Creator.handsEntry.Value);
+#endif
         }
 
         public void OnDestroy()
@@ -147,8 +171,10 @@ namespace ColVis
         {
             foreach (var instance in activeInstances)
             {
+#if BONELAB
                 instance.spine.SetActive(active);
                 instance.spine2.SetActive(active);
+#endif
                 instance.chest.SetActive(active);
             }
         }
@@ -166,8 +192,10 @@ namespace ColVis
         {
             foreach (var instance in activeInstances)
             {
+#if BONELAB
                 instance.shoulderLf.SetActive(active);
                 instance.shoulderRt.SetActive(active);
+#endif
                 instance.elbowLf.SetActive(active);
                 instance.elbowRt.SetActive(active);
             }

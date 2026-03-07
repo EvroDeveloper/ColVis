@@ -17,8 +17,8 @@ namespace ColVis
     {
         public T Tar { get; protected set; }
         public V Vis { get; protected set; }
-        public VisUpdateFlags flags { get; }
-        public bool enabled;
+        public VisUpdateFlags flags { get; } = VisUpdateFlags.Update | VisUpdateFlags.LateUpdate | VisUpdateFlags.FixedUpdate;
+        public virtual bool enabled { get; set; }
 
         public VisBase(T target)
         {

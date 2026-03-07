@@ -18,7 +18,13 @@ namespace ColVis.Utilities
         public static GameObject CreatePrimitive(PrimitiveType primitiveType, PrimitiveCreationFlags flags = PrimitiveCreationFlags.AllFlags)
         {
             GameObject primitive = GameObject.CreatePrimitive(primitiveType);
-            if(flags.HasFlag(PrimitiveCreationFlags.SetShader)) primitive.GetComponent<Renderer>().material.shader = ColVis.Shader;
+            if (flags.HasFlag(PrimitiveCreationFlags.SetShader)) 
+            { 
+                primitive.GetComponent<Renderer>().material.shader = ColVis.Shader;
+#if BONEWORKS
+                primitive.GetComponent<Renderer>().material.SetTexture("_MetallicGlossMap", ColVis.dummyMTS);
+#endif
+            }
             if(flags.HasFlag(PrimitiveCreationFlags.RemoveCollider)) UnityEngine.Object.Destroy(primitive.GetComponent<Collider>());
 
             return primitive;

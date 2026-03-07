@@ -8,7 +8,7 @@
     <AppDesignerFolder>src/Properties</AppDesignerFolder>
     <RootNamespace>ColVis</RootNamespace>
     <AssemblyName>ColVis</AssemblyName>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net481</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -34,22 +34,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\net6\0Harmony.dll</HintPath>
+      <HintPath>E:\SteamLibrary\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="BoneLib">
-      <HintPath>/Users/evanbassett/Downloads\BoneLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2CppInterop.Runtime">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>E:\SteamLibrary\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Il2Cppmscorlib">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2CppSLZ.Marrow">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\Il2CppAssemblies\Il2CppSLZ.Marrow.dll</HintPath>
+      <HintPath>E:\SteamLibrary\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\Managed\Il2Cppmscorlib.dll</HintPath>
     </Reference>
     <Reference Include="MelonLoader">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\net6\MelonLoader.dll</HintPath>
+      <HintPath>E:\SteamLibrary\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\MelonLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="ModThatIsNotMod">
+      <HintPath>E:\SteamLibrary\steamapps\common\BONEWORKS\BONEWORKS\Mods\ModThatIsNotMod.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,19 +56,19 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnhollowerBaseLib">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\Managed\UnhollowerBaseLib.dll</HintPath>
+      <HintPath>E:\SteamLibrary\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\Managed\UnhollowerBaseLib.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\Il2CppAssemblies\UnityEngine.dll</HintPath>
+      <HintPath>E:\SteamLibrary\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\Il2CppAssemblies\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>E:\SteamLibrary\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>/Users/evanbassett/Downloads/MelonLoader\Il2CppAssemblies\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>E:\SteamLibrary\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup>
-    <PostBuildEvent>cp "$(TargetDir)$(AssemblyName).dll" "/Users/evanbassett/Documents/GitHub/CustomCampaignTools/Mod Staging/Mods"</PostBuildEvent>
+    <PostBuildEvent>COPY "$(TargetDir)$(AssemblyName).dll" "E:\SteamLibrary\steamapps\common\BONEWORKS\BONEWORKS\Mods"</PostBuildEvent>
   </PropertyGroup>
 </Project>

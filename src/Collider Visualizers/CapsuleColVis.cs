@@ -16,6 +16,11 @@ namespace ColVis
         public GameObject sphereBottom;
 
 
+        public override void AfterCreateVis()
+        {
+            CreateSpheres();
+        }
+
         public void CreateSpheres()
         {
             sphereTop = PrimitiveCreator.CreatePrimitive(PrimitiveType.Sphere);
@@ -45,8 +50,10 @@ namespace ColVis
             if (Tar.direction == 2)
                 Vis.transform.localRotation = Quaternion.Euler(90, 0, 0);
 
-            sphereTop.transform.position = Vis.transform.TransformPoint(new Vector3(0f, Tar.height / 2 - Tar.radius, 0f));
-            sphereBottom.transform.position = Vis.transform.TransformPoint(new Vector3(0f, Tar.height / 2 - Tar.radius, 0f));
+            sphereTop.transform.position = Vis.transform.TransformPoint(new Vector3(0f, 1f, 0f));
+            sphereTop.transform.rotation = Vis.transform.rotation;
+            sphereBottom.transform.position = Vis.transform.TransformPoint(new Vector3(0f, -1f, 0f));
+            sphereBottom.transform.rotation = Vis.transform.rotation;
         }
 
         public override void UpdateVis()

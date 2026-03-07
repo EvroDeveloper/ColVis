@@ -1,9 +1,8 @@
-﻿#if BONEWORKS
-#else
-#define BONELAB
-#endif
-
+﻿#if BONELAB
 using Il2CppSLZ.Marrow;
+#elif BONEWORKS
+using StressLevelZero.Rig;
+#endif
 using MelonLoader;
 using UnityEngine;
 using HarmonyLib;
@@ -31,7 +30,7 @@ namespace ColVis
                 {
                     foreach (Renderer renderer in GameObject.FindObjectsOfType<MeshRenderer>())
                     {
-                        if (renderer.material.shader.name == "SLZ/LitMAS/LitMAS Standard")
+                        if (renderer.material.shader.name == "Valve/vr_standard")
                         {
                             _shader = renderer.material.shader;
                             break;
@@ -43,6 +42,7 @@ namespace ColVis
         }
         public static Material cachedMat;
         public static Texture2D dummyMAS;
+        public static Texture2D dummyMTS;
 
         public override void OnInitializeMelon()
         {
@@ -58,6 +58,34 @@ namespace ColVis
             dummyMAS.Apply();
 
             dummyMAS.hideFlags = HideFlags.DontUnloadUnusedAsset;
+
+
+
+            dummyMTS = new Texture2D(2, 2);
+
+            dummyMTS.SetPixel(0, 0, Color.white);
+            dummyMTS.SetPixel(0, 1, Color.white);
+            dummyMTS.SetPixel(1, 0, Color.white);
+            dummyMTS.SetPixel(1, 1, Color.white);
+
+            dummyMTS.Apply();
+
+            dummyMTS.hideFlags = HideFlags.DontUnloadUnusedAsset;
+        }
+
+        public override void OnUpdate()
+        {
+            VisUpdater.Update();
+        }
+
+        public override void OnLateUpdate()
+        {
+            VisUpdater.LateUpdate();
+        }
+
+        public override void OnFixedUpdate()
+        {
+            VisUpdater.FixedUpdate();
         }
 
         public static IVisBase CreateColVis(Collider c)
