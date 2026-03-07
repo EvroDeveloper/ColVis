@@ -1,4 +1,9 @@
-﻿using Il2CppSLZ.Marrow;
+﻿#if BONEWORKS
+#else
+#define BONELAB
+#endif
+
+using Il2CppSLZ.Marrow;
 using MelonLoader;
 using UnityEngine;
 using HarmonyLib;
@@ -10,13 +15,32 @@ namespace ColVis
         public const string Name = "ColVis"; // Name of the Mod.  (MUST BE SET)
         public const string Author = "EvroDev"; // Author of the Mod.  (Set as null if none)
         public const string Company = null; // Company that made the Mod.  (Set as null if none)
-        public const string Version = "1.0.0"; // Version of the Mod.  (MUST BE SET)
+        public const string Version = "1.1.0"; // Version of the Mod.  (MUST BE SET)
         public const string DownloadLink = null; // Download Link for the Mod.  (Set as null if none)
     }
 
     public class ColVis : MelonMod
     {
-        public static Shader litmas;
+        private static Shader _shader;
+
+        public static Shader Shader
+        {
+            get
+            {
+                if(_shader == null)
+                {
+                    foreach (Renderer renderer in GameObject.FindObjectsOfType<MeshRenderer>())
+                    {
+                        if (renderer.material.shader.name == "SLZ/LitMAS/LitMAS Standard")
+                        {
+                            _shader = renderer.material.shader;
+                            break;
+                        }
+                    }
+                }
+                return _shader;
+            }
+        }
         public static Material cachedMat;
         public static Texture2D dummyMAS;
 
@@ -35,21 +59,34 @@ namespace ColVis
 
             dummyMAS.hideFlags = HideFlags.DontUnloadUnusedAsset;
         }
+
+        public static IVisBase CreateColVis(Collider c)
+        {
+            if(c is BoxCollider b)
+            {
+                return new BoxColVis(b);
+            }
+            else if(c is CapsuleCollider cap)
+            {
+                return new CapsuleColVis(cap);
+            }
+            else if(c is MeshCollider m)
+            {
+                return new MeshColVis(m);
+            }
+            else if(c is SphereCollider s)
+            {
+                return new SphereColVis(s);
+            }
+            return null;
+        }
     }
 
     [HarmonyPatch(typeof(PhysicsRig), "OnAwake")]
-    public static class Hb
+    public static class PhysicsRigVisualizerPatch
     {
         public static void Postfix(PhysicsRig __instance)
         {
-            foreach (Renderer renderer in GameObject.FindObjectsOfType<MeshRenderer>())
-            {
-                if (renderer.material.shader.name == "SLZ/LitMAS/LitMAS Standard")
-                {
-                    ColVis.litmas = renderer.material.shader;
-                }
-            }
-
             __instance.gameObject.AddComponent<PhysVis>();
         }
     }

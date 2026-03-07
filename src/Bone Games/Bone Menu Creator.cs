@@ -1,5 +1,9 @@
-﻿using BoneLib;
+﻿#if BONELAB
+using BoneLib;
 using BoneLib.BoneMenu;
+#elif BONEWORKS
+using ModThatIsNotMod;
+#endif
 using MelonLoader;
 using UnityEngine;
 
@@ -60,6 +64,7 @@ namespace ColVis
                         vis = Player.ControllerRig.gameObject.AddComponent<RigVis>();
                     vis.enabled = true;
                     break;
+#if BONELAB
                 case RigVisType.RemapHeptaRig:
                     if (!Player.RemapRig.TryGetComponent(out vis))
                         vis = Player.RemapRig.gameObject.AddComponent<RigVis>();
@@ -80,6 +85,18 @@ namespace ColVis
                         vis = Player.RigManager.virtualHeptaRig.gameObject.AddComponent<RigVis>();
                     vis.enabled = true;
                     break;
+#elif BONEWORKS
+                case RigVisType.RealtimeSkeletonRig:
+                    if(!Player.RigManager.realtimeSkeletonRig.TryGetComponent(out vis))
+                        vis = Player.RigManager.realtimeSkeletonRig.gameObject.AddComponent<RigVis>();
+                    vis.enabled = true;
+                    break;
+                case RigVisType.GameWorldSkeletonRig:
+                    if(!Player.RigManager.gameWorldSkeletonRig.TryGetComponent(out vis))
+                        vis = Player.RigManager.gameWorldSkeletonRig.gameObject.AddComponent<RigVis>();
+                    vis.enabled = true;
+                    break;
+#endif
                 default:
                     break;
             }
@@ -88,10 +105,15 @@ namespace ColVis
         public static void TurnOffAllPlayerRigVis()
         {
             if (Player.ControllerRig.TryGetComponent(out RigVis control)) control.enabled = false;
+#if BONELAB
             if (Player.RemapRig.TryGetComponent(out RigVis control1)) control1.enabled = false;
             if (Player.RigManager.animationRig.TryGetComponent(out RigVis control2)) control2.enabled = false;
             if (Player.RigManager.interpRig.TryGetComponent(out RigVis control3)) control3.enabled = false;
             if (Player.RigManager.virtualHeptaRig.TryGetComponent(out RigVis control4)) control4.enabled = false;
+#elif BONEWORKS
+            if (Player.RigManager.realtimeSkeletonRig.TryGetComponent(out RigVis control1)) control1.enabled = false;
+            if (Player.RigManager.gameWorldSkeletonRig.TryGetComponent(out RigVis control2)) control2.enabled = false;
+#endif
         }
     }
 }

@@ -1,4 +1,10 @@
-﻿using Il2CppSLZ.Marrow;
+﻿using ColVis.Utilities;
+#if BONELAB
+using Il2CppSLZ.Marrow;
+#elif BONEWORKS
+using StressLevelZero.Rigs;
+using StressLevelZero.VRMK;
+#endif
 using MelonLoader;
 using System;
 using System.Collections;
@@ -12,22 +18,36 @@ namespace ColVis
     {
         public PhysVis(IntPtr ptr) : base(ptr) { }
 
-        public static List<PhysVis> activeInstances = new List<PhysVis>();
+        public static List<PhysVis> activeInstances = new();
 
         public SphereColVis locosphere;
         public SphereColVis fender;
         public CapsuleColVis legs;
+#if BONELAB
         public MeshColVis pelvis;
         public MeshColVis spine;
+        public MeshColVis spine2;
         public MeshColVis chest;
+        public CapsuleColVis neck;
+        public MeshColVis head;
+#elif BONEWORKS
+        public CapsuleColVis pelvis;
+        public BoxColVis chest;
+        public CapsuleColVis neck;
+        public BoxColVis head;
+#endif
 
+#if BONELAB
         public MeshColVis shoulderLf;
         public MeshColVis elbowLf;
-        public BoxColVis handLf;
-        public BoxColVis fingersLf;
-
         public MeshColVis shoulderRt;
         public MeshColVis elbowRt;
+#elif BONEWORKS
+        public CapsuleColVis elbowLf;
+        public CapsuleColVis elbowRt;
+#endif
+        public BoxColVis handLf;
+        public BoxColVis fingersLf;
         public BoxColVis handRt;
         public BoxColVis fingersRt;
 
@@ -40,33 +60,48 @@ namespace ColVis
 
             activeInstances.Add(this);
 
-            locosphere = physicsRig.feet.AddComponent<SphereColVis>();
+            locosphere = new SphereColVis(physicsRig._football);
             locosphere.SetActive(Bone_Menu_Creator.locosphereEntry.Value);
-            fender = physicsRig.knee.AddComponent<SphereColVis>();
+            fender = new SphereColVis(physicsRig._kneeFender);
             fender.SetActive(Bone_Menu_Creator.fenderEntry.Value);
-            legs = physicsRig.kneePelvisCol.gameObject.AddComponent<CapsuleColVis>();
+            legs = new CapsuleColVis(physicsRig.kneePelvisCol);
             legs.SetActive(Bone_Menu_Creator.kneeEntry.Value);
-            pelvis = physicsRig.m_pelvis.gameObject.AddComponent<MeshColVis>();
+
+#if BONELAB
+            pelvis = new MeshColVis(physicsRig.torso.cPelvis);
             pelvis.SetActive(Bone_Menu_Creator.pelvisEntry.Value);
-            spine = physicsRig.m_spine.gameObject.AddComponent<MeshColVis>();
+            spine = new MeshColVis(physicsRig.torso.cSpineLow);
             spine.SetActive(Bone_Menu_Creator.torsoEntry.Value);
-            chest = physicsRig.m_chest.gameObject.AddComponent<MeshColVis>();
+            spine2 = new MeshColVis(physicsRig.torso.cSpine);
+            spine2.SetActive(Bone_Menu_Creator.torsoEntry.Value);
+            chest = new MeshColVis(physicsRig.torso.cChest);
             chest.SetActive(Bone_Menu_Creator.torsoEntry.Value);
-            shoulderLf = physicsRig.m_shoulderLf.gameObject.AddComponent<MeshColVis>();
+#elif BONEWORKS
+#endif
+
+#if BONELAB
+            shoulderLf = new MeshColVis(physicsRig.leftHand.physHand.cUpper);
             shoulderLf.SetActive(Bone_Menu_Creator.armsEntry.Value);
-            shoulderRt = physicsRig.m_shoulderRt.gameObject.AddComponent<MeshColVis>();
+            shoulderRt = new MeshColVis(physicsRig.rightHand.physHand.cUpper);
             shoulderRt.SetActive(Bone_Menu_Creator.armsEntry.Value);
-            elbowLf = physicsRig.m_elbowLf.gameObject.AddComponent<MeshColVis>();
+            elbowLf = new MeshColVis(physicsRig.leftHand.physHand.cLower);
             elbowLf.SetActive(Bone_Menu_Creator.armsEntry.Value);
-            elbowRt = physicsRig.m_elbowRt.gameObject.AddComponent<MeshColVis>();
+            elbowRt = new MeshColVis(physicsRig.rightHand.physHand.cLower);
             elbowRt.SetActive(Bone_Menu_Creator.armsEntry.Value);
-            handLf = physicsRig.m_handLf.gameObject.AddComponent<BoxColVis>();
+#elif BONEWORKS
+            elbowLf = new MeshColVis(physicsRig.leftHand.physHand.forearmCollider);
+            elbowLf.SetActive(Bone_Menu_Creator.armsEntry.Value);
+            elbowRt = new MeshColVis(physicsRig.rightHand.physHand.forearmCollider);
+            elbowRt.SetActive(Bone_Menu_Creator.armsEntry.Value);
+#endif
+
+            handLf = new BoxColVis(physicsRig.leftHand.physHand.handCol);
             handLf.SetActive(Bone_Menu_Creator.handsEntry.Value);
-            handRt = physicsRig.m_handRt.gameObject.AddComponent<BoxColVis>();
+            handRt = new BoxColVis(physicsRig.rightHand.physHand.handCol);
             handRt.SetActive(Bone_Menu_Creator.handsEntry.Value);
-            fingersLf = physicsRig.m_handLf.transform.Find("l_fingers_col").gameObject.AddComponent<BoxColVis>();
+            fingersLf = new BoxColVis(physicsRig.leftHand.physHand.fingersCol);
             fingersLf.SetActive(Bone_Menu_Creator.handsEntry.Value);
-            fingersRt = physicsRig.m_handRt.transform.Find("r_fingers_col").gameObject.AddComponent<BoxColVis>();
+            fingersRt = new BoxColVis(physicsRig.rightHand.physHand.fingersCol);
             fingersRt.SetActive(Bone_Menu_Creator.handsEntry.Value);
         }
 
@@ -113,7 +148,17 @@ namespace ColVis
             foreach (var instance in activeInstances)
             {
                 instance.spine.SetActive(active);
+                instance.spine2.SetActive(active);
                 instance.chest.SetActive(active);
+            }
+        }
+
+        public static void HeadSetActive(bool active)
+        {
+            foreach (var instance in activeInstances)
+            {
+                instance.neck.SetActive(active);
+                instance.head.SetActive(active);
             }
         }
 

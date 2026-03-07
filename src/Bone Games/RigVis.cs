@@ -1,4 +1,8 @@
-﻿using Il2CppSLZ.Marrow;
+﻿#if BONELAB
+using Il2CppSLZ.Marrow;
+#elif BONEWORKS
+using StressLevelZero.Rigs;
+#endif
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +17,15 @@ namespace ColVis
     {
         None,
         ControllerRig,
+#if BONELAB
         RemapHeptaRig,
         AnimationRig,
         InterpRig,
         VirtualHeptaRig,
+#elif BONEWORKS
+        RealtimeSkeletonRig,
+        GameWorldSkeletonRig,
+#endif
     }
 
     [RegisterTypeInIl2Cpp]
@@ -30,20 +39,26 @@ namespace ColVis
         {
             _rig = GetComponent<Rig>();
             CreateTranVis(_rig.m_pelvis);
+#if BONELAB
             CreateTranVis(_rig.m_spine);
+#endif
             CreateTranVis(_rig.m_chest);
+#if BONELAB
             CreateTranVis(_rig.m_clavLf);
             CreateTranVis(_rig.m_clavRt);
             CreateTranVis(_rig.m_shoulderLf);
             CreateTranVis(_rig.m_shoulderRt);
             CreateTranVis(_rig.m_elbowLf);
             CreateTranVis(_rig.m_elbowRt);
+#endif
             CreateTranVis(_rig.m_handLf);
             CreateTranVis(_rig.m_handRt);
+#if BONELAB
             CreateTranVis(_rig.m_hipLf);
             CreateTranVis(_rig.m_hipRt);
             CreateTranVis(_rig.m_kneeLf);
             CreateTranVis(_rig.m_kneeRt);
+#endif
             CreateTranVis(_rig.m_footLf);
             CreateTranVis(_rig.m_footRt);
         }
@@ -68,14 +83,14 @@ namespace ColVis
         {
             foreach (var tran in _tranVis)
             {
-                Destroy(tran);
+                tran.DestroyVis();
             }
         }
 
         void CreateTranVis(Transform t)
         {
             if (t != null)
-                _tranVis.Add(t.gameObject.AddComponent<TranVis>());
+                _tranVis.Add(new TranVis(t));
         }
     }
 }
