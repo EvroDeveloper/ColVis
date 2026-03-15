@@ -30,7 +30,11 @@ namespace ColVis
                 {
                     foreach (Renderer renderer in GameObject.FindObjectsOfType<MeshRenderer>())
                     {
+#if BONELAB
+                        if (renderer.material.shader.name == "SLZ/LitMAS/LitMAS Standard")
+#elif BONEWORKS
                         if (renderer.material.shader.name == "Valve/vr_standard")
+#endif
                         {
                             _shader = renderer.material.shader;
                             break;

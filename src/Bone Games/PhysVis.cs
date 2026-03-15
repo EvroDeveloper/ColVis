@@ -110,8 +110,8 @@ namespace ColVis
             fingersLf = new BoxColVis(physicsRig.leftHand.physHand.fingersCol);
             fingersRt = new BoxColVis(physicsRig.rightHand.physHand.fingersCol);
 #elif BONEWORKS
-            handLf = new BoxColVis((BoxCollider)physicsRig.leftHand.GetComponent<BoxCollider>());
-            handRt = new BoxColVis((BoxCollider)physicsRig.rightHand.GetComponent<BoxCollider>());
+            handLf = new BoxColVis(physicsRig.leftHand.GetComponent<BoxCollider>());
+            handRt = new BoxColVis(physicsRig.rightHand.GetComponent<BoxCollider>());
             fingersLf = new BoxColVis(physicsRig.physBody.lfFingersCol);
             fingersRt = new BoxColVis(physicsRig.physBody.rtFingersCol);
 #endif
