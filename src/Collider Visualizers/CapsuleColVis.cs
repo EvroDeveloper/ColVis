@@ -43,7 +43,9 @@ namespace ColVis
             sphereTop.transform.localScale = Vector3.one * Tar.radius * 2;
             sphereBottom.transform.localScale = Vector3.one * Tar.radius * 2;
 
-            if (Tar.direction == 2)
+            if (Tar.direction == 0)
+                Vis.transform.localRotation = Quaternion.Euler(0, 0, 90);
+            else if (Tar.direction == 2)
                 Vis.transform.localRotation = Quaternion.Euler(90, 0, 0);
 
             sphereTop.transform.position = Vis.transform.TransformPoint(new Vector3(0f, 1f, 0f));
